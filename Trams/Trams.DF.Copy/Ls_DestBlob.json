@@ -1,0 +1,11 @@
+﻿{
+  "$schema": "http://datafactories.schema.management.azure.com/schemas/2015-09-01/Microsoft.DataFactory.LinkedService.json",
+  "name": "Ls_DestBlob",
+  "properties": {
+    "type": "AzureStorage",
+    "typeProperties": {
+      "connectionString": "DefaultEndpointsProtocol=https;AccountName=lacecopydest;AccountKey=qN6pZxjU5c0c+D/GuYaltiUSojm3GUYAzq4x3X/9/gdFBo24g1vx/ewzF7fxmYWtl0lkNGKwVjFxVyvuZ/wYIA=="
+    }
+
+  }
+}

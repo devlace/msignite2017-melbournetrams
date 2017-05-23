@@ -1,0 +1,45 @@
+﻿{
+  "$schema": "http://datafactories.schema.management.azure.com/schemas/2015-09-01/Microsoft.DataFactory.Pipeline.json",
+  "name": "P_ApiDownload",
+  "properties": {
+    "description": "Download melbourne pedestrian foot traffic data",
+    "activities": [
+      {
+        "name": "ApiDownloadActivity",
+        "type": "DotNetActivity",
+        "outputs": [
+          {
+            "name": "Ds_PedestrianFootTrafficBlob"
+          }
+        ],
+        "typeProperties": {
+          "assemblyName": "Trams.DF.ApiDownload.dll",
+          "entryPoint": "Trams.DF.ApiDownload.ApiDownloadActivity",
+          "packageLinkedService": "Ls_Blob",
+          "packageFile": "dotnet/Trams.DF.ApiDownload.zip",
+          "extendedProperties": {
+            "year": "$$Text.Format('{0:yyyy}', Date.AddMonths(SliceStart, -3))",
+            "month": "$$Text.Format('{0:MMMM}', Date.AddMonths(SliceStart, -3))",
+            "day": "$$Text.Format('{0:%d}', Date.AddMonths(SliceStart, -3))",
+            "hour": "$$Text.Format('{0:%H}', Date.AddMonths(SliceStart, -3))",
+            "sodaUrl": "https://data.melbourne.vic.gov.au",
+            "resourceId": "mxb8-wn4w"
+          }
+        },
+        "linkedServiceName": "Ls_Batch",
+        "policy": {
+          "concurrency": 4,
+          "executionPriorityOrder": "OldestFirst",
+          "retry": 3,
+          "timeout": "01:00:00"
+        },
+        "scheduler": {
+          "frequency": "Hour",
+          "interval": 1
+        }
+      }
+    ],
+    "start": "2016-12-01T00:00:00Z",
+    "end": "2099-01-27T00:00:00Z"
+  }
+}

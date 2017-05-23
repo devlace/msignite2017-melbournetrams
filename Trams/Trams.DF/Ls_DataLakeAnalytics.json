@@ -1,0 +1,14 @@
+﻿{
+  "$schema": "http://datafactories.schema.management.azure.com/schemas/2015-09-01/Microsoft.DataFactory.LinkedService.json",
+  "name": "Ls_DataLakeAnalytics",
+  "properties": {
+    "type": "AzureDataLakeAnalytics",
+    "typeProperties": {
+      "accountName": "<account_name>",
+      "authorization": "<auth>",
+      "sessionId": "<session_id>",
+      "subscriptionId": "<sub_id>",
+      "resourceGroupName": "<resource_group_name"
+    }
+  }
+}

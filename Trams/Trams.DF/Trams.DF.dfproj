@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>1b9cac14-ca0f-4409-8dfa-532594660d85</ProjectGuid>
+    <OutputType>File</OutputType>
+    <AssemblyName>DataFactory</AssemblyName>
+    <ApiVersion>2015-09-01</ApiVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <Name>Trams.DF</Name>
+    <RootNamespace>Trams.DF</RootNamespace>
+    <SccProjectName>SAK</SccProjectName>
+    <SccProvider>SAK</SccProvider>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccLocalPath>SAK</SccLocalPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>false</DebugSymbols>
+    <OutputPath>bin\Release\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ADFConfigFileToPublish>
+    </ADFConfigFileToPublish>
+  </PropertyGroup>
+  <ItemGroup>
+    <Folder Include="Dependencies\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Script Include="DevConfig.json" />
+    <Script Include="Ds_PedestrianFootTrafficAdls.json" />
+    <Script Include="Ds_PedestrianFootTrafficHive.json" />
+    <Script Include="Ds_PedestrianFootTrafficSdw.json" />
+    <Script Include="Ds_TramFeaturesHive.json" />
+    <Script Include="Ds_TramFeaturesSdwScored.json" />
+    <Script Include="Ds_TramsFeaturesAdls.json" />
+    <Script Include="Ls_AzureML.json" />
+    <Script Include="Ls_DataLakeAnalytics.json" />
+    <Script Include="Ls_DataLakeStore.json" />
+    <Script Include="Ls_HDI.json" />
+    <Script Include="Ls_SDW.json" />
+    <Script Include="P_ApiDownload.json" />
+    <Script Include="Ds_PedestrianFootTrafficBlob.json" />
+    <Script Include="Ls_Batch.json" />
+    <Script Include="Ls_Blob.json" />
+    <Script Include="P_BlobToDataLakeStore.json" />
+    <Script Include="P_DataLakeStoreToHiveTables.json" />
+    <Script Include="P_DataLakeStoreToSdw.json" />
+    <Script Include="P_DataLakeStoreToUSqlTables.json" />
+    <Script Include="P_PredictTramLoad.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Trams.DF.ApiDownload\Trams.DF.ApiDownload.csproj">
+      <Name>Trams.DF.ApiDownload</Name>
+      <Project>{4f253daa-8c61-41c7-8141-0eb4d30cedf3}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Trams.DF.Hive\Trams.DF.Hive.hiveproj">
+      <Name>Trams.DF.Hive</Name>
+      <Project>{39a62d42-ae35-4c0c-8008-30f3810be652}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Dependencies\feature_engineering_score_usql.txt">
+      <SubType>Content</SubType>
+    </Content>
+  </ItemGroup>
+  <Import Project="$(AppData)\Microsoft\DataFactory Tools for Visual Studio\MsBuild\1.0\DataFactory.targets" />
+</Project>

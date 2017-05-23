@@ -1,0 +1,13 @@
+﻿{
+  "$schema": "http://datafactories.schema.management.azure.com/schemas/2015-09-01/Microsoft.DataFactory.LinkedService.json",
+  "name": "Ls_HDI",
+  "properties": {
+    "type": "HDInsight",
+    "typeProperties": {
+      "clusterUri": "https://<clustername>.azurehdinsight.net/",
+      "userName": "admin",
+      "password": "your_password_here",
+      "linkedServiceName": "Ls_Blob"
+    }
+  }
+}

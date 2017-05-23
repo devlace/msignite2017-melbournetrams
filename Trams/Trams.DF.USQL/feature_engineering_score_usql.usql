@@ -1,0 +1,74 @@
+﻿
+
+// Need to execute at least onces
+// CREATE ASSEMBLY [Trams.USQL.Lib] FROM "/assemblies/TramsUDF/Trams.USQL.Lib.dll";
+
+REFERENCE ASSEMBLY [Trams.USQL.Lib];
+USING udfs = [Trams.USQL.Lib].UDF;
+
+DECLARE @SliceStart DateTime = "2016-01-01"; //Comment out when running DF. DF will pass this variable in.
+DECLARE @SliceStartDate DateTime = DateTime.Parse(@SliceStart);
+
+@pedestrian_foot_traffic =
+    EXTRACT year            int,
+            month           string,
+            month_num       int,
+            mdate           int, 
+            day             string,
+            hour            int,
+            date_time       DateTime,
+            sensor_id       string,
+            sensor_name     string,
+            hourly_counts   int
+    FROM @In
+    USING Extractors.Csv(skipFirstNRows:1);
+
+INSERT INTO dbo.pedestrian_foot_traffic
+SELECT * FROM @pedestrian_foot_traffic;
+
+@pedestrian_foot_traffic_grouped =
+    SELECT 
+	    p.[year],
+	    p.month_num,
+	    p.[hour],
+	    st.location_id,
+        AVG(hourly_counts) AS mean_count,
+        STDEV(hourly_counts) AS std_count,
+        MAX(hourly_counts) AS max_count,
+        MIN(hourly_counts) AS min_count
+    FROM
+	    @pedestrian_foot_traffic AS p
+	    INNER JOIN
+	    dbo.sensor_tram AS st
+	    ON	p.sensor_id == st.sensor_id 
+    WHERE
+        date_time > @SliceStartDate.AddDays(-30) AND date_time <= @SliceStartDate
+    GROUP BY
+	    p.[year],
+	    p.month_num,
+	    p.[hour],
+	    st.location_id;
+
+@features =
+    SELECT p.location_id,
+           udfs.isFreeTramZone(p.year) AS is_free_tram_zone,
+           mean_count,
+           std_count,
+           max_count,
+           min_count,
+           greater_melbourne_labour_force,
+           @Year AS year,
+           @Month AS month,
+           @Day AS day,
+           @Hour AS hour
+    FROM @pedestrian_foot_traffic_grouped AS p
+
+         INNER JOIN
+             dbo.employment AS l
+         ON
+         p.[year] == l.[year]
+         AND p.[month_num] == l.[month_num];
+
+OUTPUT @features
+TO @Out
+USING Outputters.Csv();

@@ -1,0 +1,14 @@
+﻿{
+  "$schema": "http://datafactories.schema.management.azure.com/schemas/2015-09-01/Microsoft.DataFactory.LinkedService.json",
+  "name": "Ls_Batch",
+  "properties": {
+    "type": "AzureBatch",
+    "typeProperties": {
+      "accountName": "",
+      "accessKey": "",
+      "poolName": "dfpoolid",
+      "batchUri": "",
+      "linkedServiceName": "Ls_Blob"
+    }
+  }
+}

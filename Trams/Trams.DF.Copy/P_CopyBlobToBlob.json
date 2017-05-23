@@ -1,0 +1,43 @@
+﻿{
+  "$schema": "http://datafactories.schema.management.azure.com/schemas/2015-09-01/Microsoft.DataFactory.Pipeline.json",
+  "name": "P_CopyBlobToBlob",
+  "properties": {
+    "description": "Copies data from source blob storage to destination blob storage",
+    "activities": [
+      {
+        "name": "CopyActivityTemplate",
+        "type": "Copy",
+        "inputs": [
+          {
+            "name": "Ds_BlobSourceData"
+          }
+        ],
+        "outputs": [
+          {
+            "name": "Ds_BlobDestData"
+          }
+        ],
+        "typeProperties": {
+          "source": {
+            "type": "BlobSource"
+          },
+          "sink": {
+            "type": "BlobSink"
+          }
+        },
+        "policy": {
+          "concurrency": 1,
+          "executionPriorityOrder": "OldestFirst",
+          "retry": 3,
+          "timeout": "01:00:00"
+        },
+        "scheduler": {
+          "frequency": "Hour",
+          "interval": 1
+        }
+      }
+    ],
+    "start": "2017-02-01T00:00:00Z",
+    "end": "2017-02-01T00:00:00Z"
+  }
+}

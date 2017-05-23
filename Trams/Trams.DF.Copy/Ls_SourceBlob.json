@@ -1,0 +1,10 @@
+﻿{
+  "$schema": "http://datafactories.schema.management.azure.com/schemas/2015-09-01/Microsoft.DataFactory.LinkedService.json",
+  "name": "Ls_SourceBlob",
+  "properties": {
+    "type": "AzureStorage",
+    "typeProperties": {
+      "connectionString": "DefaultEndpointsProtocol=https;AccountName=lacecopysource;AccountKey=BSBBOJQM+qogMo+auF9z0BN+pEBKK8aU0rv8nyec+YkG5sB8feLLdBZvNBOLbGiPjWX1nv6v63PgpKKgws2V+w=="
+    }
+  }
+}

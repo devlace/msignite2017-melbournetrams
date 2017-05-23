@@ -1,0 +1,63 @@
+﻿
+//CREATE ASSEMBLY [Trams.USQL.Lib] FROM "/assemblies/TramsUDF/Trams.USQL.Lib.dll";
+
+@pedestrian_foot_traffic =
+    EXTRACT year            int,
+            month           string,
+            month_num       int,
+            mdate           int, 
+            day             string,
+            hour            int,
+            date_time       DateTime,
+            sensor_id       string,
+            sensor_name     string,
+            hourly_counts   int
+    FROM "data/trams/initial/pedestrian_foot_traffic/{*}.csv"
+    USING Extractors.Csv(skipFirstNRows:1); 
+
+CREATE TABLE IF NOT EXISTS dbo.pedestrian_foot_traffic
+(
+    INDEX ci_pedestrian_foot_traffic
+    CLUSTERED (sensor_id)
+    DISTRIBUTED BY
+    HASH(sensor_id)
+) AS
+SELECT *
+FROM @pedestrian_foot_traffic;
+
+
+@sensor_tram =
+    EXTRACT sensor_id string,
+            location_id int
+    FROM "data/trams/initial/sensor_tram/{*}.csv"
+    USING Extractors.Csv(skipFirstNRows:1);
+
+DROP TABLE IF EXISTS dbo.sensor_tram;
+CREATE TABLE dbo.sensor_tram
+(
+    INDEX ci_sensor_tram
+    CLUSTERED(sensor_id, location_id)
+    DISTRIBUTED BY
+    HASH(sensor_id, location_id)
+) AS
+SELECT *
+FROM @sensor_tram;
+
+@employment =
+    EXTRACT [year] int,
+            [month] string,
+            month_num int,
+            year_month DateTime,
+            greater_melbourne_labour_force int
+    FROM "data/trams/initial/employment/{*}.csv"
+    USING Extractors.Csv(skipFirstNRows : 1);
+
+CREATE TABLE IF NOT EXISTS dbo.employment
+(
+    INDEX ci_employment
+    CLUSTERED([year], month_num)
+    DISTRIBUTED BY
+    HASH([year], month_num)
+) AS
+SELECT *
+FROM @employment;

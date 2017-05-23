@@ -1,0 +1,41 @@
+﻿{
+  "$schema": "http://datafactories.schema.management.azure.com/schemas/2015-09-01/Microsoft.DataFactory.Pipeline.json",
+  "name": "P_PredictTramLoad",
+  "properties": {
+    "description": "Calls into AzureML webservice to predict tram load",
+    "activities": [
+      {
+        "name": "PredictTramLoadActivity",
+        "type": "AzureMLBatchExecution",
+        "linkedServiceName": "Ls_AzureML",
+        "typeProperties": {
+          "globalParameters": {
+            "Hive database query": "$$Text.Format('SELECT year, month_num, day, hour, location_id, is_free_tram_zone, mean_count, std_count, max_count, min_count, greater_melbourne_labour_force FROM trams.trams_features_unscored WHERE year={0:yyyy} AND month_num={0:%M} AND day={0:%d} AND hour={0:%H}', SliceStart)"
+          }
+        },
+        "inputs": [
+          {
+            "name": "Ds_TramFeaturesHive"
+          }
+        ],
+        "outputs": [
+          {
+            "name": "Ds_TramFeaturesSdwScored"
+          }
+        ],
+        "policy": {
+          "concurrency": 1,
+          "executionPriorityOrder": "OldestFirst",
+          "retry": 3,
+          "timeout": "01:00:00"
+        },
+        "scheduler": {
+          "frequency": "Hour",
+          "interval": 1
+        }
+      }
+    ],
+    "start": "2016-12-01T00:00:00Z",
+    "end": "2099-01-27T00:00:00Z"
+  }
+}

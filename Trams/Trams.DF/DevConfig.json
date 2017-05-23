@@ -1,0 +1,9 @@
+﻿{
+    "$schema": "http://datafactories.schema.management.azure.com/vsschemas/V1/Microsoft.DataFactory.Config.json",
+    "Ls_Blob": [
+        {
+            "name": "$.JPath", //i.e $.properties.connectionString
+            "value": "<value>"
+        }
+    ]
+}

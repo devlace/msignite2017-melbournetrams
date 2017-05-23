@@ -1,0 +1,81 @@
+﻿{
+  "$schema": "http://datafactories.schema.management.azure.com/schemas/2015-09-01/Microsoft.DataFactory.Pipeline.json",
+  "name": "P_DataLakeStoreToHiveTables",
+  "properties": {
+    "description": "Insert data to base hive tables",
+    "activities": [
+      {
+        "name": "InsertToHiveWarehouse",
+        "type": "HDInsightHive",
+        "linkedServiceName": "Ls_HDI",
+        "inputs": [
+          {
+            "name": "Ds_PedestrianFootTrafficAdls"
+          }
+        ],
+        "outputs": [
+          {
+            "name": "Ds_PedestrianFootTrafficHive"
+          }
+        ],
+        "typeProperties": {
+          "scriptPath": "scripts\\delta_load.hql",
+          "scriptLinkedService": "Ls_Blob",
+          "defines": {
+            "FileLocation": "$$Text.Format('adl://lacetramsdlstor.azuredatalakestore.net/data/trams/delta/pedestrian_foot_traffic/{0:yyyy}/{0:MM}/{0:dd}/{0:HH}/',SliceStart)",
+            "SliceText": "$$Text.Format('{0:yyyy_MM_dd_HH_mm}',SliceStart)"
+          }
+        },
+        "policy": {
+          "concurrency": 1,
+          "executionPriorityOrder": "OldestFirst",
+          "retry": 3,
+          "timeout": "01:00:00"
+        },
+        "scheduler": {
+          "frequency": "Hour",
+          "interval": 1
+        }
+      },
+      {
+        "name": "ExtractFeatures",
+        "type": "HDInsightHive",
+        "linkedServiceName": "Ls_HDI",
+        "inputs": [
+          {
+            "name": "Ds_PedestrianFootTrafficHive"
+          }
+        ],
+        "outputs": [
+          {
+            "name": "Ds_TramFeaturesHive"
+          }
+        ],
+        "typeProperties": {
+          "scriptPath": "scripts\\feature_engineering_score.hql",
+          "scriptLinkedService": "Ls_Blob",
+          "defines": {
+            "SliceStart": "$$Text.Format('{0:yyyy-MM-dd HH:mm}',SliceStart)",
+            "SliceText": "$$Text.Format('{0:yyyy_MM_dd_HH_mm}',SliceStart)",
+            "Year": "$$Text.Format('{0:yyyy}',SliceStart)",
+            "Month": "$$Text.Format('{0:%M}',SliceStart)",
+            "Day": "$$Text.Format('{0:%d}',SliceStart)",
+            "Hour": "$$Text.Format('{0:%H}',SliceStart)"
+          }
+        },
+        "policy": {
+          "concurrency": 1,
+          "executionPriorityOrder": "OldestFirst",
+          "retry": 3,
+          "timeout": "01:00:00"
+        },
+        "scheduler": {
+          "frequency": "Hour",
+          "interval": 1
+        }
+      }
+    ],
+    "start": "2016-12-01T00:00:00Z",
+    "end": "2099-01-27T00:00:00Z"
+  }
+}

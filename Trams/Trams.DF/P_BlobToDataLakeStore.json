@@ -1,0 +1,43 @@
+﻿{
+  "$schema": "http://datafactories.schema.management.azure.com/schemas/2015-09-01/Microsoft.DataFactory.Pipeline.json",
+  "name": "P_BlobToDataLakeStore",
+  "properties": {
+    "description": "Copies pedestrian foot traffic data from blob storage to azure data lake store",
+    "activities": [
+      {
+        "name": "CopyActivity",
+        "type": "Copy",
+        "inputs": [
+          {
+            "name": "Ds_PedestrianFootTrafficBlob"
+          }
+        ],
+        "outputs": [
+          {
+            "name": "Ds_PedestrianFootTrafficAdls"
+          }
+        ],
+        "typeProperties": {
+          "source": {
+            "type": "BlobSource"
+          },
+          "sink": {
+            "type": "AzureDataLakeStoreSink"
+          }
+        },
+        "policy": {
+          "concurrency": 4,
+          "executionPriorityOrder": "OldestFirst",
+          "retry": 3,
+          "timeout": "01:00:00"
+        },
+        "scheduler": {
+          "frequency": "Hour",
+          "interval": 1
+        }
+      }
+    ],
+    "start": "2016-12-01T00:00:00Z",
+    "end": "2099-01-27T00:00:00Z"
+  }
+}

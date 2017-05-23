@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>ea3b3c48-ead0-4ff6-9756-34cd23a5d6fb</ProjectGuid>
+    <OutputType>File</OutputType>
+    <AssemblyName>DataFactory</AssemblyName>
+    <ApiVersion>2015-09-01</ApiVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <Name>Trams.DF.Copy</Name>
+    <RootNamespace>Trams.DF.Copy</RootNamespace>
+    <SccProjectName>SAK</SccProjectName>
+    <SccProvider>SAK</SccProvider>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccLocalPath>SAK</SccLocalPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>false</DebugSymbols>
+    <OutputPath>bin\Release\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ADFConfigFileToPublish>
+    </ADFConfigFileToPublish>
+  </PropertyGroup>
+  <ItemGroup>
+    <Folder Include="Dependencies\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Script Include="Ds_BlobDestData.json" />
+    <Script Include="Ds_BlobSourceData.json" />
+    <Script Include="Ls_DestBlob.json" />
+    <Script Include="Ls_SourceBlob.json" />
+    <Script Include="P_CopyBlobToBlob.json" />
+  </ItemGroup>
+  <Import Project="$(AppData)\Microsoft\DataFactory Tools for Visual Studio\MsBuild\1.0\DataFactory.targets" />
+</Project>

@@ -1,0 +1,17 @@
+﻿{
+  "$schema": "http://datafactories.schema.management.azure.com/schemas/2015-09-01/Microsoft.DataFactory.Table.json",
+  "name": "Ds_BlobSourceData",
+  "properties": {
+    "type": "AzureBlob",
+    "linkedServiceName": "Ls_SourceBlob",
+    "typeProperties": {
+      "folderPath": "data",
+      "fileName": "Data.csv"
+    },
+    "external": true,
+    "availability": {
+      "frequency": "Hour",
+      "interval": 1
+    }
+  }
+}

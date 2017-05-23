@@ -1,0 +1,10 @@
+﻿{
+    "$schema": "http://datafactories.schema.management.azure.com/schemas/2015-09-01/Microsoft.DataFactory.LinkedService.json",
+    "name": "Ls_SDW",
+    "properties": {
+        "type": "AzureSqlDW",
+      "typeProperties": {
+        "connectionString": "Data Source=tcp:<server>.database.windows.net,1433;Initial Catalog=<db>;User ID=<usernrame>@<server>.database.windows.net;Password=your_password_here;Integrated Security=False;Encrypt=True;Connect Timeout=30"
+      }
+    }
+}

@@ -1,0 +1,40 @@
+﻿{
+  "$schema": "http://datafactories.schema.management.azure.com/schemas/2015-09-01/Microsoft.DataFactory.Pipeline.json",
+  "name": "P_DataLakeStoreToSdw",
+  "properties": {
+    "description": "Loads pedestrian foot traffic data from azure data lake store to SDW",
+    "activities": [
+      {
+        "type": "SqlServerStoredProcedure",
+        "typeProperties": {
+          "storedProcedureName": "dbo.load_pedestrian_foot_traffic_adl",
+          "storedProcedureParameters": {
+            "SliceLocation": "$$Text.Format('{0:yyyy}/{0:MM}/{0:dd}/{0:HH}', SliceStart)"
+          }
+        },
+        "inputs": [
+          {
+            "name": "Ds_PedestrianFootTrafficAdls"
+          }
+        ],
+        "outputs": [
+          {
+            "name": "Ds_PedestrianFootTrafficSdw"
+          }
+        ],
+        "policy": {
+          "timeout": "01:00:00",
+          "concurrency": 1,
+          "retry": 3
+        },
+        "scheduler": {
+          "frequency": "Hour",
+          "interval": 1
+        },
+        "name": "LoadDataLakeStoreToSDWActivity"
+      }
+    ],
+    "start": "2016-02-07T10:00:00Z",
+    "end": "2099-01-27T00:00:00Z"
+  }
+}

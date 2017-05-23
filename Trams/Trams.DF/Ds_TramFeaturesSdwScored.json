@@ -1,0 +1,15 @@
+﻿{
+  "$schema": "http://datafactories.schema.management.azure.com/schemas/2015-09-01/Microsoft.DataFactory.Table.json",
+  "name": "Ds_TramFeaturesSdwScored",
+  "properties": {
+    "type": "AzureSqlDWTable",
+    "linkedServiceName": "Ls_SDW",
+    "typeProperties": {
+      "tableName": "dbo.trams_features_scored"
+    },
+    "availability": {
+      "frequency": "Hour",
+      "interval": 1
+    }
+  }
+}

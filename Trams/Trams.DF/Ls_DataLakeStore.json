@@ -1,0 +1,14 @@
+﻿{
+  "name": "Ls_DataLakeStore",
+  "properties": {
+    "type": "AzureDataLakeStore",
+    "typeProperties": {
+      "dataLakeStoreUri": "adl://<account>.azuredatalakestore.net/",
+      "servicePrincipalId": "",
+      "servicePrincipalKey": "",
+      "tenant": "",
+      "subscriptionId": "",
+      "resourceGroupName": ""
+    }
+  }
+}
